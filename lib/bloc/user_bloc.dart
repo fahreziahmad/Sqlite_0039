@@ -16,3 +16,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         emit(UserError("Gagal memuat data"));
       }
     });
+
+    on<AddUserEvent>((event, emit) async {
+      await repository.addUser(event.user);
+      add(LoadUsers());
+    });
