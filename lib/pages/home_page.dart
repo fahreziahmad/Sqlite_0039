@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sqflite/pages/user_page.dart';
+import 'package:sqllite/pages/user_page.dart';
 import '../bloc/user_bloc.dart';
 import '../bloc/user_event.dart';
 import '../bloc/user_state.dart';
@@ -20,24 +20,35 @@ class HomePage extends StatelessWidget {
               itemCount: state.users.length,
               itemBuilder: (context, index) {
                 final user = state.users[index];
-                return ListTile(
-                  title: Text(user.name),
-                  subtitle: Text(user.email),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.edit, color: Colors.blue),
-                        onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (_) => UserFormPage(user: user)),
+                return Card(
+                  margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
+                  child: ListTile(
+                    title: Text(user.name, style: const TextStyle(fontWeight: FontWeight.bold)),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 4),
+                        Text("Email: ${user.email}", style: const TextStyle(fontSize: 12)),
+                        Text("Telpon: ${user.noTelpon}", style: const TextStyle(fontSize: 12)),
+                        Text("Alamat: ${user.alamat}", style: const TextStyle(fontSize: 12)),
+                      ],
+                    ),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.edit, color: Colors.blue),
+                          onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => UserFormPage(user: user)),
+                          ),
                         ),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.delete, color: Colors.red),
-                        onPressed: () => context.read<UserBloc>().add(DeleteUserEvent(user.id)),
-                      ),
-                    ],
+                        IconButton(
+                          icon: const Icon(Icons.delete, color: Colors.red),
+                          onPressed: () => context.read<UserBloc>().add(DeleteUserEvent(user.id)),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },

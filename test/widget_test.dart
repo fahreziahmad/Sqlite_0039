@@ -9,11 +9,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:sqllite/main.dart';
+import 'package:sqllite/data/repositories/user_repository.impl.dart';
+import 'package:sqllite/helper/database_helper.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    final dbHelper = DatabaseHelper();
+    final userRepository = UserRepositoryImpl(dbHelper);
+    await tester.pumpWidget(MyApp(repository: userRepository));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);
