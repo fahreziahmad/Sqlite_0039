@@ -8,3 +8,8 @@ class AddUserEvent extends UserEvent {
   final UserEntity user;
   AddUserEvent(this.user);
 }
+
+class DeleteUserEvent extends UserEvent {
+  final String id;
+  DeleteUserEvent(this.id);
+}
