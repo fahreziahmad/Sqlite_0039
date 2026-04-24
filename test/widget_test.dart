@@ -13,22 +13,26 @@ import 'package:sqllite/data/repositories/user_repository.impl.dart';
 import 'package:sqllite/helper/database_helper.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('User App loads correctly', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     final dbHelper = DatabaseHelper();
     final userRepository = UserRepositoryImpl(dbHelper);
     await tester.pumpWidget(MyApp(repository: userRepository));
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Wait for initial state load
+    await tester.pumpAndSettle();
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Verify that the app title is displayed
+    expect(find.text('Daftar User'), findsOneWidget);
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Verify initial empty state message or user list
+    expect(
+      find.byType(FloatingActionButton),
+      findsOneWidget,
+      reason: 'Should have a FloatingActionButton to add users',
+    );
+
+    // Verify the app is properly initialized
+    expect(find.byType(MaterialApp), findsOneWidget);
   });
 }
